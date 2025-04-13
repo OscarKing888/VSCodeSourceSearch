@@ -41,6 +41,11 @@ A powerful code search tool for VSCode, similar to Entrian Source Search. This e
 - `npm run compile` - Compile the extension
 - `npm run watch` - Watch for changes and compile
 - `npm run test` - Run tests
+- `npm install -g @vscode/vsce` - Install vsce globally
+- `vsce package` - Package the extension
+- `Set-ExecutionPolicy RemoteSigned` - Set the execution policy to allow the extension to be installed
+- `npx vsce package` - Package the extension
+- `code --install-extension <path-to-extension>` - Install the extension
 
 ## License
 
