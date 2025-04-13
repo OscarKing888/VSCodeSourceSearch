@@ -12,7 +12,7 @@ export class SearchProvider {
         this.searchResults = new SearchResultsProvider();
     }
 
-    public showSearch() {
+    public showSearch(initialText: string = '') {
         if (!this.searchPanel) {
             this.searchPanel = vscode.window.createWebviewPanel(
                 'sourceSearch',
@@ -24,7 +24,7 @@ export class SearchProvider {
                 }
             );
 
-            this.searchPanel.webview.html = this.getWebviewContent();
+            this.searchPanel.webview.html = this.getWebviewContent(initialText);
             this.searchPanel.onDidDispose(() => {
                 this.searchPanel = undefined;
             });
@@ -40,6 +40,12 @@ export class SearchProvider {
             });
         } else {
             this.searchPanel.reveal(vscode.ViewColumn.One);
+            if (initialText) {
+                this.searchPanel.webview.postMessage({
+                    command: 'setSearchText',
+                    text: initialText
+                });
+            }
         }
     }
 
@@ -94,7 +100,7 @@ export class SearchProvider {
         return searchableExtensions.some(ext => filename.endsWith(ext));
     }
 
-    private getWebviewContent(): string {
+    private getWebviewContent(initialText: string = ''): string {
         return `
             <!DOCTYPE html>
             <html lang="en">
@@ -130,7 +136,7 @@ export class SearchProvider {
             </head>
             <body>
                 <div class="search-container">
-                    <input type="text" id="searchInput" placeholder="Enter search text...">
+                    <input type="text" id="searchInput" placeholder="Enter search text..." value="${initialText}">
                     <button onclick="search()">Search</button>
                 </div>
                 <div id="results" class="results"></div>
@@ -160,6 +166,10 @@ export class SearchProvider {
                                 currentResults = message.results;
                                 displayResults();
                                 break;
+                            case 'setSearchText':
+                                document.getElementById('searchInput').value = message.text;
+                                search();
+                                break;
                         }
                     });
 
@@ -176,6 +186,11 @@ export class SearchProvider {
                             \`;
                             resultsDiv.appendChild(div);
                         });
+                    }
+
+                    // Auto-search if initial text is provided
+                    if ("${initialText}") {
+                        search();
                     }
                 </script>
             </body>

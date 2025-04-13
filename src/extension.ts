@@ -8,7 +8,20 @@ export function activate(context: vscode.ExtensionContext) {
         searchProvider.showSearch();
     });
 
-    context.subscriptions.push(disposable);
+    let searchSelectedDisposable = vscode.commands.registerCommand('vscode-source-search.searchSelected', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            const selection = editor.selection;
+            const text = editor.document.getText(selection);
+            if (text) {
+                searchProvider.showSearch(text);
+            } else {
+                vscode.window.showInformationMessage('Please select some text to search');
+            }
+        }
+    });
+
+    context.subscriptions.push(disposable, searchSelectedDisposable);
 }
 
 export function deactivate() {} 
