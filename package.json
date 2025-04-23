@@ -30,6 +30,11 @@
         "command": "vscode-source-search.search",
         "key": "ctrl+shift+f",
         "mac": "cmd+shift+f"
+      },
+      {
+        "command": "vscode-source-search.searchSelected",
+        "key": "alt+=",
+        "mac": "cmd+="
       }
     ]
   },
