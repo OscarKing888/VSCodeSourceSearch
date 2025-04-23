@@ -15,6 +15,8 @@ export function activate(context: vscode.ExtensionContext) {
             const text = editor.document.getText(selection);
             if (text) {
                 searchProvider.showSearch(text);
+                searchProvider.performSearch(text);
+                console.log(`Searching for selected text: "${text}"`);                
             } else {
                 vscode.window.showInformationMessage('Please select some text to search');
             }

@@ -49,7 +49,7 @@ export class SearchProvider {
         }
     }
 
-    private async performSearch(searchText: string) {
+    public async performSearch(searchText: string) {
         if (!vscode.workspace.workspaceFolders) {
             vscode.window.showErrorMessage('No workspace folder is open');
             return;
@@ -66,7 +66,7 @@ export class SearchProvider {
         }
     }
 
-    private async searchInDirectory(dir: string, searchText: string): Promise<any[]> {
+    public async searchInDirectory(dir: string, searchText: string): Promise<any[]> {
         const results: any[] = [];
         const files = await fs.promises.readdir(dir);
 

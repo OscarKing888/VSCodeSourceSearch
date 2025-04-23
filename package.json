@@ -28,8 +28,8 @@
     "keybindings": [
       {
         "command": "vscode-source-search.search",
-        "key": "ctrl+shift+f",
-        "mac": "cmd+shift+f"
+        "key": "ctrl+alt+f",
+        "mac": "ctrl+cmd+f"
       },
       {
         "command": "vscode-source-search.searchSelected",
